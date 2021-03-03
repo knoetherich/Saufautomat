@@ -78,7 +78,7 @@ public class TacticsMove : MonoBehaviour
             {
                 foreach(Tile tile in t.adjacencyList)
                 {
-                    if(!tile.visited)
+                    if(!tile.visited)   //&& t.GetComponent<Renderer>().material == Resources.Load<Material>("Street")s
                     {
                         tile.parent = t;
                         tile.visited = true;
