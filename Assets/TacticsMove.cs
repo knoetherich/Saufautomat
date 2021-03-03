@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class TacticsMove : MonoBehaviour
 {
+    public bool turn = false;                       //Ist true wenn der Spieler dran ist
     List<Tile> selectableTile = new List<Tile>();
     GameObject[] tiles;
     Stack<Tile> path = new Stack<Tile>();
     Tile currentTile;
     public bool moving = false;
-    public int move = 5;    //Reichweite 
-    public float jumpHeight = 2;    //Sprunghöhe
+    public int move = 5;                            //Reichweite 
+    public float jumpHeight = 2;                    //Sprunghöhe
     public float moveSpeed = 2;
     public float jumpVelocity = 4.5f;
     Vector3 velocity = new Vector3();
@@ -27,12 +28,15 @@ public class TacticsMove : MonoBehaviour
         tiles = GameObject.FindGameObjectsWithTag("Tile"); 
 
         halfHeight =  GetComponent<Collider>().bounds.extents.y;
+
+        TurnManager.AddUnit(this);                                  //this = current tacticsMove Object
+
     }
 
     public void GetCurrentTile()
     {
         currentTile = GetTargetTile(gameObject);
-        currentTile.current = true;
+        //currentTile.current = true;
     }
 
     public Tile GetTargetTile(GameObject target)
@@ -141,6 +145,10 @@ public class TacticsMove : MonoBehaviour
         {
             RemoveSelectableTiles();
             moving = false;
+
+            //Wenn nach dem Bewegen noch etwas passieren soll, dann hier...
+
+            TurnManager.EndTurn();
         }
     }
 
@@ -148,8 +156,8 @@ public class TacticsMove : MonoBehaviour
     {
         if(currentTile != null)
         {
-            currentTile.current = false;
-            currentTile = null;
+            //currentTile.current = false;
+            //currentTile = null;
         }
 
         foreach(Tile tile in selectableTile)
@@ -262,5 +270,15 @@ public class TacticsMove : MonoBehaviour
             velocity /= 4.0f;
             velocity.y = 1.5f;
         }
+    }
+
+    public void BeginTurn()
+    {
+        turn = true;
+    }
+
+    public void EndTurn()
+    {
+        turn = false;
     }
 }

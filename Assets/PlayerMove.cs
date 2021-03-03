@@ -14,6 +14,12 @@ public class PlayerMove : TacticsMove
     void Update()
     {
         Debug.DrawRay(transform.position, transform.forward);
+
+        if(!turn)                                   //Wenn Spieler nicht dran ist, erlaube ihm nicht sich zu bewegen
+        {
+            return;                                 
+        }
+
         if(!moving)
         {
             FindSelectableTiles();
